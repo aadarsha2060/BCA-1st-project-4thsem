@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SymptomCheck</title>
+
+<style>
+body{
+font-family:Arial, sans-serif;
+background:#f2f5f8;
+color:#333;
+}
+
+.container{
+max-width:700px;
+margin:40px auto;
+padding:20px 30px;
+background:#fff;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+position:relative;
+}
+
+.header{
+text-align:center;
+margin-bottom:30px;
+position:relative;
+}
+
+.header h1{
+color:#4b0082;
+font-size:2.5em;
+margin-bottom:5px;
+}
+
+.header p{
+font-size:1.1em;
+color:#555;
+}
+
+#logoutBtn{
+position:absolute;
+top:0;
+right:0;
+padding:10px 20px;
+background:#ff5722;
+border:none;
+border-radius:8px;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+#logoutBtn:hover{
+background:#e64a19;
+}
+
+.input-section{
+margin-bottom:30px;
+}
+
+label{
+font-weight:bold;
+display:block;
+margin-bottom:8px;
+}
+
+#symptomInput{
+width:calc(100% - 100px);
+padding:12px;
+border-radius:8px 0 0 8px;
+border:1px solid #ccc;
+font-size:1em;
+}
+
+#addSymptomBtn{
+width:100px;
+padding:12px;
+background:#6a11cb;
+border:none;
+border-radius:0 8px 8px 0;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.symptom-tags{
+margin:15px 0;
+min-height:40px;
+padding:10px;
+border:1px dashed #aaa;
+border-radius:8px;
+background:#fafafa;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.symptom-chip{
+background:#f0e6fa;
+padding:8px 14px;
+border-radius:20px;
+cursor:pointer;
+color:#4b0082;
+font-weight:500;
+}
+
+#analyzeBtn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(45deg,#2575fc,#6a11cb);
+color:white;
+font-size:1.2em;
+font-weight:600;
+cursor:pointer;
+margin-top:10px;
+}
+
+.results{
+padding:15px;
+background:#f9f7ff;
+border-radius:8px;
+border:1px solid #e0d4f7;
+margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>SymptomCheck</h1>
+<p>Medical Symptom Analyzer</p>
+<button id="logoutBtn">Logout</button>
+</div>
+
+<div class="input-section">
+
+<label>Enter your symptoms:</label>
+
+<div style="display:flex;">
+<input type="text" id="symptomInput" placeholder="fever, headache">
+<button id="addSymptomBtn">Add</button>
+</div>
+
+<div class="symptom-tags" id="symptomTags">
+<span style="color:purple;font-style:italic;">
+Your symptoms will appear here...
+</span>
+</div>
+
+<button id="analyzeBtn">Analyze Symptoms</button>
+
+<h3>Common Symptoms</h3>
+
+<div>
+<span class="symptom-chip" data-symptom="fever">Fever</span>
+<span class="symptom-chip" data-symptom="headache">Headache</span>
+<span class="symptom-chip" data-symptom="cough">Cough</span>
+<span class="symptom-chip" data-symptom="fatigue">Fatigue</span>
+<span class="symptom-chip" data-symptom="nausea">Nausea</span>
+<span class="symptom-chip" data-symptom="sore throat">Sore Throat</span>
+<span class="symptom-chip" data-symptom="muscle pain">Muscle Pain</span>
+<span class="symptom-chip" data-symptom="runny nose">Runny Nose</span>
+</div>
+
+</div>
+
+<div class="results" id="results">
+<h3>Analysis Results</h3>
+<p>No symptoms analyzed yet.</p>
+</div>
+
+</div>
+
+<script>
+
+const symptomInput=document.getElementById("symptomInput");
+const addBtn=document.getElementById("addSymptomBtn");
+const analyzeBtn=document.getElementById("analyzeBtn");
+const symptomTags=document.getElementById("symptomTags");
+const results=document.getElementById("results");
+const chips=document.querySelectorAll(".symptom-chip");
+const logoutBtn=document.getElementById("logoutBtn");
+
+let symptoms=[];
+
+function renderSymptoms(){
+
+symptomTags.innerHTML="";
+
+if(symptoms.length===0){
+symptomTags.innerHTML='<span style="color:purple;font-style:italic;">Your symptoms will appear here...</span>';
+return;
+}
+
+symptoms.forEach((symptom,index)=>{
+
+const tag=document.createElement("span");
+tag.className="symptom-chip";
+tag.innerText=symptom;
+
+tag.onclick=()=>{
+symptoms.splice(index,1);
+renderSymptoms();
+}
+
+symptomTags.appendChild(tag);
+
+});
+
+}
+
+function addSymptoms(){
+
+let value=symptomInput.value;
+
+if(value==="") return;
+
+let list=value.split(",");
+
+list.forEach(sym=>{
+sym=sym.trim().toLowerCase();
+if(sym!=="" && !symptoms.includes(sym)){
+symptoms.push(sym);
+}
+});
+
+symptomInput.value="";
+renderSymptoms();
+
+}
+
+addBtn.addEventListener("click",addSymptoms);
+
+symptomInput.addEventListener("keypress",function(e){
+if(e.key==="Enter"){
+e.preventDefault();
+addSymptoms();
+}
+});
+
+chips.forEach(chip=>{
+chip.addEventListener("click",function(){
+let s=chip.getAttribute("data-symptom");
+if(!symptoms.includes(s)){
+symptoms.push(s);
+renderSymptoms();
+}
+});
+});
+
+analyzeBtn.addEventListener("click",function(){
+
+if(symptoms.length===0){
+results.innerHTML="<p>Please add symptoms first.</p>";
+return;
+}
+
+let text="Based on symptoms: <b>"+symptoms.join(", ")+"</b><br><br>";
+
+let diseases=[];
+
+if(symptoms.includes("fever")){
+diseases.push("Flu","Common Cold","COVID-19");
+}
+
+if(symptoms.includes("cough")){
+diseases.push("Bronchitis","Flu");
+}
+
+if(symptoms.includes("headache")){
+diseases.push("Migraine","Tension Headache");
+}
+
+if(symptoms.includes("fatigue")){
+diseases.push("Anemia","Thyroid Issues");
+}
+
+if(diseases.length===0){
+diseases.push("General Checkup Recommended");
+}
+
+text+="<b>Possible Conditions:</b> "+[...new Set(diseases)].join(", ");
+
+results.innerHTML=text;
+
+});
+
+/* LOGOUT */
+
+logoutBtn.addEventListener("click",function(){
+window.location.href="logout.php";
+});
+
+renderSymptoms();
+
+</script>
+
+</body>
+</html>

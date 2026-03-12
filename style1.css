@@ -1,0 +1,138 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: #f2f5f8;
+    color: #333;
+}
+
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: #4b0082;
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.header p {
+    font-size: 1.1em;
+    color: #555;
+}
+
+.input-section {
+    margin-bottom: 30px;
+}
+
+.symptom-input label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.symptom-input input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.symptom-input input:focus {
+    outline: none;
+    border-color: #4b0082;
+    box-shadow: 0 0 5px rgba(75, 0, 130, 0.3);
+}
+
+.symptom-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 40px;
+    padding: 10px;
+    border: 1px dashed #aaa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background: #fafafa;
+}
+
+.symptom-tags span {
+    background: #e0d4f7;
+    padding: 5px 12px;
+    border-radius: 20px;
+    color: #4b0082;
+    font-weight: 500;
+}
+
+.analyze-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 25px;
+    border: none;
+    border-radius: 8px;
+    background: #4b0082;
+    color: #fff;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.analyze-btn:hover {
+    background: #6a00b8;
+}
+
+.common-symptoms h3 {
+    margin-bottom: 10px;
+    color: #4b0082;
+}
+
+.symptom-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.symptom-chip {
+    background: #f0e6fa;
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: #4b0082;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.symptom-chip:hover {
+    background: #d1b3f5;
+}
+
+.results {
+    padding: 15px;
+    background: #f9f7ff;
+    border-radius: 8px;
+    border: 1px solid #e0d4f7;
+}
+
+.results h3 {
+    color: #4b0082;
+    margin-bottom: 10px;
+}
